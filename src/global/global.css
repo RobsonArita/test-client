@@ -1,0 +1,9 @@
+/* global.css */
+body {
+  background-color: #cfe4f0; /* Cor de fundo azul clara */
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Outros estilos globais, como para a barra de menu superior, podem ser adicionados aqui */

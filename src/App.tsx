@@ -1,6 +1,5 @@
 // App.js
 import React from 'react';
-import ImoveisList from './components/property/ListProperty';
 import GlobalStyles from './global/GlobalStyles';
 import ApplicationRoutes from './routes';
 import Header from './components/header/header';

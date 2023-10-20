@@ -4,12 +4,14 @@ import LoginModal from '../login/LoginModal'
 import { useDispatch } from 'react-redux'
 import { login } from '../../redux/actions/authActions'
 import LogoutModal from '../logout/LogoutModal'
+import SignupModal from '../signup/SignupModal'
 
 function Header() {
   const dispatch = useDispatch()
 
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showLogoutModal, setShowLogoutModal] = useState(false)
+  const [showSignupModal, setShowSignupModal] = useState(false)
   const [authenticated, setAuthenticated] = useState(false)
 
   const handleLoginClick = () => {
@@ -20,12 +22,20 @@ function Header() {
     setShowLogoutModal(true)
   }
 
+  const handleSignupClick = () => {
+    setShowSignupModal(true)
+  }
+
   const handleCloseLoginModal = () => {
     setShowLoginModal(false)
   }
 
   const handleCloseLogoutModal = () => {
     setShowLogoutModal(false)
+  }
+
+  const handleCloseSignupModal = () => {
+    setShowSignupModal(false)
   }
 
   const handeLoginSucess = () => {
@@ -38,6 +48,9 @@ function Header() {
     setAuthenticated(false); // Atualize o estado de autenticação
   }
 
+  const handleSignupSuccess = () => {
+  }
+
   return (
     <header className="app-header">
       <nav>
@@ -47,17 +60,21 @@ function Header() {
           <li><a href="/contact">Contato</a></li>
         </ul>
       </nav>
-      {authenticated ? ( // Verifica se o usuário está autenticado
-      <button onClick={handleLogoutClick} className="logout-button">
-        Logout
-      </button>
-    ) : (
-      <button onClick={handleLoginClick} className="login-button">
-        Login
-      </button>
-    )}
+      <div className="right-buttons">
+      <button onClick={handleSignupClick} className="signup">Registrar</button>
+        {authenticated ? (
+        <button onClick={handleLogoutClick} className="logout-button">
+          Logout
+        </button>
+      ) : (
+        <button onClick={handleLoginClick} className="login-button">
+          Login
+        </button>
+      )}
+      </div>
       {showLoginModal && <LoginModal onClose={handleCloseLoginModal} onLoginSuccess={handeLoginSucess} />}
       {showLogoutModal && <LogoutModal onClose={handleCloseLogoutModal} onLogoutSuccess={handleLogout}/>}
+      {showSignupModal && <SignupModal onClose={handleCloseSignupModal} onSignupSuccess={handleSignupSuccess} />}
     </header>
   )
 }

@@ -2,18 +2,20 @@
 
 import { AuthAction } from '../actions/authActions'
 
-interface AuthState {
+export interface AuthState {
   token: string | null
+  user: any
 }
 
 const initialState: AuthState = {
-  token: null
+  token: null,
+  user: null
 }
 
 const authReducer = (state = initialState, action: AuthAction): AuthState => {
   switch (action.type) {
     case 'LOGIN':
-      return { ...state, token: action.token }
+      return { ...state, token: action.token, user: action.user }
     case 'LOGOUT':
       return { ...state, token: null }
     default:

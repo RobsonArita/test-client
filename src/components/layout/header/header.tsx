@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import './header.css'
-import LoginModal from '../login/LoginModal'
+import LoginModal from '../../login/LoginModal'
 import { useDispatch } from 'react-redux'
-import { login } from '../../redux/actions/authActions'
-import LogoutModal from '../logout/LogoutModal'
-import SignupModal from '../signup/SignupModal'
+import { login } from '../../../redux/actions/authActions'
+import LogoutModal from '../../logout/LogoutModal'
+import SignupModal from '../../signup/SignupModal'
 
-function Header() {
+function AppHeader() {
   const dispatch = useDispatch()
 
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -44,7 +44,7 @@ function Header() {
 
   const handleLogout = () => {
     // Lógica para fazer logout, como limpar o token no Redux
-    dispatch(login('')); // Limpe o token no Redux
+    dispatch(login('', '')); // Limpe o token no Redux
     setAuthenticated(false); // Atualize o estado de autenticação
   }
 
@@ -79,4 +79,4 @@ function Header() {
   )
 }
 
-export default Header
+export default AppHeader

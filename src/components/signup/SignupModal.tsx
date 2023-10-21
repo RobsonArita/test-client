@@ -21,7 +21,8 @@ function SignupModal({ onClose, onSignupSuccess }: { onClose: any, onSignupSucce
     try {
       const response = await loginApi(email, password)
       const token = response.token
-      dispatch(login(token))
+      const user = response.user
+      dispatch(login(token, user))
 
       onSignupSuccess()
       setShowLoginModal(false) // Feche o modal após o login com sucesso

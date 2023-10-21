@@ -1,0 +1,20 @@
+.ant-header {
+  display: flex;
+  align-items: center;
+  background-color: #001529;
+}
+
+.header-right {
+  margin-left: auto;
+  display: flex;
+
+}
+
+.button-container {
+  margin-right: 10px; /* Espaçamento horizontal entre os botões */
+}
+
+/* Para evitar margem à direita no último botão */
+.button-container:last-child {
+  margin-right: 0;
+}

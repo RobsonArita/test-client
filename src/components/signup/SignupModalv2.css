@@ -1,0 +1,61 @@
+.signup-input-container {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+}
+
+.signup-modal input, select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.signup-modal select {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+}
+
+.signup-modal select option {
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+  padding: 10px;
+}
+
+.signup-modal select option:hover {
+  background-color: #030303;
+  color: #ff2f2f;
+}
+
+.signup-modal label {
+  width: 100%; /* Define a largura máxima do label */
+  display: block; /* Faz com que os labels ocupem toda a largura disponível */
+  text-align: left; /* Alinhe o texto à esquerda (ou ao estilo desejado) */
+  word-wrap: break-word; /* Quebra de palavras quando atingir o limite de largura */
+  margin-bottom: 5px; /* Adicione margem inferior para espaçamento entre os labels */
+  font-size: 16px; /* Ajuste o tamanho da fonte conforme necessário */
+  color: #333; /* Defina a cor do texto desejada */
+}
+
+.signup-modal button:hover {
+  background-color: #0056b3;
+}
+
+.signup-error-message {
+  color: #ff0000;
+  font-size: 16px;
+}

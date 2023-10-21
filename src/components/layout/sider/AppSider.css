@@ -1,0 +1,7 @@
+/* AppSiderCustom.css */
+
+/* Altere a cor do texto do menu principal recolhido quando o mouse está sobre ele */
+.ant-menu-item:hover {
+  color: rgb(180, 246, 255)
+}
+

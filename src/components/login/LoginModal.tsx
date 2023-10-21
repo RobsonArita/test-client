@@ -20,7 +20,8 @@ function LoginModal({ onClose, onLoginSuccess }: { onClose: any, onLoginSuccess:
     try {
       const response = await loginApi(email, password);
       const token = response.token;
-      dispatch(login(token));
+      const user = response.user
+      dispatch(login(token, user));
 
       onLoginSuccess();
       setShowLoginModal(false); // Feche o modal após o login com sucesso

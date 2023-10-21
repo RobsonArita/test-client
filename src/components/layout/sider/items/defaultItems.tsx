@@ -1,0 +1,31 @@
+import React from 'react'
+import type { MenuProps } from 'antd'
+import locatarioItems from './locatarioItems'
+import {
+  HomeOutlined
+} from '@ant-design/icons';
+
+export type MenuItem = Required<MenuProps>['items'][number]
+
+export function getItem(
+  label: React.ReactNode,
+  key: React.Key,
+  icon?: React.ReactNode,
+  children?: MenuItem[]
+): MenuItem {
+  return {
+    key,
+    icon,
+    children,
+    label
+  } as MenuItem
+}
+
+export const unauthItems: MenuItem[] = [
+  getItem('Imóveis Disponíveis', '/', <HomeOutlined />)
+]
+
+export function getUserPaths (userLevel?: any) {
+  if (!userLevel) return unauthItems
+  return locatarioItems
+}

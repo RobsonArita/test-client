@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { getImoveis } from '../../api/property'
 
 function ListProperty() {
+  console.log('ListProperty')
   const [page, setPage] = useState(1)
   const [imoveis, setImoveis] = useState([])
 

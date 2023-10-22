@@ -8,7 +8,7 @@ export enum ReqType {
 }
 
 export class DefaultApi {
-  private readonly url: string
+  private readonly url?: string
   private readonly urlPath: string
   private readonly reqType: ReqType
   private readonly body?: { [key: string]: any }
@@ -18,7 +18,7 @@ export class DefaultApi {
     reqType: ReqType,
     body?: { [key: string]: any }
   ) {
-    this.url = process.env.SERVER_URL ?? 'http://25.18.66.27:3000'
+    this.url = process.env.REACT_APP_BASE_URL
     this.urlPath = urlPath
     this.reqType = reqType
     this.body = body
@@ -27,7 +27,7 @@ export class DefaultApi {
   async useAxios () {
     try {
       console.log({ url: this.url })
-      if (!this.url.length) throw new Error('Sever URL not found!')
+      if (!this.url?.length) throw new Error('Sever URL not found!')
       const response = await this[this.reqType]()
 
       return response

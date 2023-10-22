@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import './LoginModalv2.css';
-import { Button, Modal } from 'antd';
-import { loginApi } from '../../api/signin';
-import { useDispatch } from 'react-redux';
-import { login } from '../../redux/actions/authActions';
-import errorHandler from '../../functions/errorHandlert';
+import React, { useState } from 'react'
+import './LoginModalv2.css'
+import { Button, Modal } from 'antd'
+import { loginApi } from '../../api/signin'
+import { useDispatch } from 'react-redux'
+import { login } from '../../redux/actions/authActions'
+import errorHandler from '../../functions/errorHandlert'
 
-const LoginModalv2: React.FC = () => {
-  const dispatch = useDispatch();
+const LoginModalv2 = ({ onLoginSucess }: { onLoginSucess: () => void }) => {
+  const dispatch = useDispatch()
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -18,36 +18,41 @@ const LoginModalv2: React.FC = () => {
 
   const showModal = () => {
     setError('')
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleOk = () => {
-    setLoading(true);
+    setLoading(true)
     setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-    }, 3000);
-  };
+      setLoading(false)
+      setOpen(false)
+    }, 3000)
+  }
 
   const handleCancel = () => {
-    setOpen(false);
-  };
+    setOpen(false)
+  }
 
   const handleFormSubmit = async (event: any) => {
     setError('')
     event.preventDefault()
 
     try {
-      setLoading(true);
-      const response = await loginApi(email, password)
-      const token = response.token
-      const user = response.user
-      dispatch(login(token, user));
+      setLoading(true)
+      const { signinResponse } = await loginApi(email, password)
+
+      const token = signinResponse.token
+      const user = signinResponse.user
+
+      dispatch(login(token, user))
 
       setOpen(false)
+      onLoginSucess()
     } catch (error: any) {
       console.error('Erro ao fazer login:', error)
       setError(errorHandler(error))
+      // onLoginSucess()
+      // setOpen(false)
     } finally {
       setLoading(false)
     }
@@ -88,7 +93,7 @@ const LoginModalv2: React.FC = () => {
       <div className='emptydiv'></div>
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default LoginModalv2;
+export default LoginModalv2

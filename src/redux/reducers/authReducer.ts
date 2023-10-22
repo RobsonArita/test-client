@@ -7,6 +7,10 @@ export interface AuthState {
   user: any
 }
 
+export interface SelectorState {
+  auth: AuthState
+}
+
 const initialState: AuthState = {
   token: null,
   user: null
@@ -17,7 +21,7 @@ const authReducer = (state = initialState, action: AuthAction): AuthState => {
     case 'LOGIN':
       return { ...state, token: action.token, user: action.user }
     case 'LOGOUT':
-      return { ...state, token: null }
+      return { ...state, token: null, user: null }
     default:
       return state
   }

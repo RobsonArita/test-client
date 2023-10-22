@@ -8,6 +8,7 @@ export const loginApi = async (email: string, password: string) => {
       { email, password }
     ).useAxios()
 
+    console.log({ response: response?.data })
     return response?.data
   } catch (error) {
     console.log({ apiError: error })

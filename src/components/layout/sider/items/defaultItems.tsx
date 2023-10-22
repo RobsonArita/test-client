@@ -26,6 +26,7 @@ export const unauthItems: MenuItem[] = [
 ]
 
 export function getUserPaths (userLevel?: any) {
+  console.log({ userLevel })
   if (!userLevel) return unauthItems
   return locatarioItems
 }

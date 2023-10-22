@@ -2,14 +2,14 @@ import React from 'react';
 import {
   DesktopOutlined,
   FileOutlined,
-  PieChartOutlined,
+  HomeOutlined,
   TeamOutlined,
   UserOutlined,
 } from '@ant-design/icons';
 import { MenuItem, getItem } from './defaultItems';
 
 const locatarioItems: MenuItem[] = [
-  getItem('Option 1', '1', <PieChartOutlined />),
+  getItem('Option 1', '/', <HomeOutlined />),
   getItem('Option 2', '2', <DesktopOutlined />),
   getItem('User', 'sub1', <UserOutlined />, [
     getItem('Tom', '3'),

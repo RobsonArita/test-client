@@ -13,19 +13,19 @@ function AppSider() {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedPath, setSelectedPath] = useState('/');
 
-  const handleCollapse = (value: any) => {
-    setCollapsed(value);
+  const handleCollapse = () => {
+    setCollapsed(false)
   };
 
   const handleMenuClick = ({ key }: { key: string }) => {
     setSelectedPath(key);
   };
 
-  const userLevel: IUser['level'] = useSelector((state: SelectorState) => state?.auth?.user?.level);
+  const userLevel: IUser['level'] = useSelector((state: SelectorState) => state?.auth?.user?.level)
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={handleCollapse}>
+      <Sider collapsible collapsed={collapsed} onCollapse={handleCollapse} onClick={handleCollapse}>
         <div className="demo-logo-vertical" />
         <Menu
           defaultSelectedKeys={['/']}

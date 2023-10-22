@@ -1,20 +1,16 @@
 import React, { useState } from 'react'
-import './LoginModalv2.css'
+import './LogoutModalv2.css'
 import { Button, Modal } from 'antd'
 import { loginApi } from '../../api/signin'
 import { useDispatch } from 'react-redux'
 import { login } from '../../redux/actions/authActions'
 import errorHandler from '../../functions/errorHandler'
 
-const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
+const LogoutModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
   const dispatch = useDispatch()
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [open, setOpen] = useState(false)
-
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
 
   const showModal = () => {
     setError('')
@@ -26,69 +22,44 @@ const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
     setTimeout(() => {
       setLoading(false)
       setOpen(false)
-    }, 3000)
+      handleLogout()
+    }, 1000)
   }
 
   const handleCancel = () => {
     setOpen(false)
   }
 
-  const handleFormSubmit = async (event: any) => {
+  const handleLogout = async () => {
     setError('')
-    event.preventDefault()
 
     try {
-      setLoading(true)
-      const { signinResponse } = await loginApi(email, password)
-
-      const token = signinResponse.token
-      const user = signinResponse.user
-
-      dispatch(login(token, user))
-
-      setOpen(false)
+      dispatch(login('', ''))
       onLoginSuccess()
     } catch (error: any) {
-      console.error('Erro ao fazer login:', error)
+      console.error('Erro ao realizar logout:', error)
       setError(errorHandler(error))
-      // onLoginSucess()
-      // setOpen(false)
-    } finally {
-      setLoading(false)
     }
   }
 
   return (
     <>
       <Button type="primary" onClick={showModal}>
-        Entrar
+        Sair
       </Button>
       <Modal className='login-modal'
         open={open}
-        title="Insira suas credênciais de acesso"
-        onOk={handleOk}
+        title="Tem certeza que deseja sair do sistema?"
         onCancel={handleCancel}
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancelar
           </Button>,
-          <Button key="submit" type="primary" loading={loading} onClick={handleFormSubmit}>
-            Enviar
+          <Button key="submit" type="primary" loading={loading} onClick={handleOk}>
+            Sim
           </Button>
         ]}
       >
-            <input
-              type="text"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Senha"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
       {error && <p className="login-error-message">{error}</p>}
       <div className='emptydiv'></div>
       </Modal>
@@ -96,4 +67,4 @@ const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
   )
 }
 
-export default LoginModalv2
+export default LogoutModalv2

@@ -5,6 +5,7 @@ import { loginApi } from '../../api/signin'
 import { useDispatch } from 'react-redux'
 import { login } from '../../redux/actions/authActions'
 import errorHandler from '../../functions/errorHandler'
+import keyPressHandler from '../../functions/keyPressHandler'
 
 const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
   const dispatch = useDispatch()
@@ -15,6 +16,11 @@ const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
+  const handleKeyUp = (event: any) => {
+    if (event.key === 'Enter' || event.keyCode === 13) {
+      handleFormSubmit(event)
+    }
+  }
 
   const showModal = () => {
     setError('')
@@ -34,7 +40,6 @@ const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
   }
 
   const handleFormSubmit = async (event: any) => {
-    setError('')
     event.preventDefault()
 
     try {
@@ -63,6 +68,7 @@ const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
       <Button type="primary" onClick={showModal}>
         Entrar
       </Button>
+      <div onKeyUp={handleKeyUp}>
       <Modal className='login-modal'
         open={open}
         title="Insira suas credênciais de acesso"
@@ -92,6 +98,7 @@ const LoginModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
       {error && <p className="login-error-message">{error}</p>}
       <div className='emptydiv'></div>
       </Modal>
+      </div>
     </>
   )
 }

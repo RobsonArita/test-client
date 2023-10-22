@@ -1,50 +1,71 @@
-import React, { useState } from 'react';
-import './SignupModalv2.css';
-import { Button, Modal } from 'antd';
-import { loginApi } from '../../api/signin';
+import React, { useState } from 'react'
+import './SignupModalv2.css'
+import { Button, Modal } from 'antd'
+import { ISignupReq, signup } from '../../api/signup'
 
 const SignupModalv2: React.FC = () => {
   const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [open, setOpen] = useState(false)
 
-  const [userType, setUserType] = useState('')
+  const [userType, setUserType] = useState('proprietario')
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [cellphone, setCellphone] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
 
   const showModal = () => {
     setError('')
-    setOpen(true);
-  };
+    setOpen(true)
+  }
 
   const handleOk = () => {
-    setLoading(true);
+    setLoading(true)
     setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-    }, 3000);
-  };
+      setLoading(false)
+      setOpen(false)
+    }, 3000)
+  }
 
   const handleCancel = () => {
-    setOpen(false);
-  };
+    clearFields()
+    setOpen(false)
+  }
+
+  const clearFields = () => {
+    setUserType('')
+    setName('')
+    setEmail('')
+    setCellphone('')
+    setPassword('')
+    setConfirmPassword('')
+  }
 
   const handleFormSubmit = async (event: any) => {
-    setError('')
     event.preventDefault()
 
     try {
-      setLoading(true);
-      const response = await loginApi(email, password)
-      const token = response.token
+      setLoading(true)
+      const reqBody: ISignupReq = {
+        name,
+        cellphone,
+        email,
+        level: userType,
+        password
+      }
+      await signup(reqBody)
 
-      setOpen(false) // Feche o modal após o login com sucesso
+      setSuccess('Usuário registrado com sucesso!')
+      setError('')
+      clearFields()
     } catch (error: any) {
       console.error('Erro ao fazer login:', error)
       setError('Erro ao fazer login. Verifique suas credenciais.')
       if (error?.response?.data?.error) setError(error?.response?.data?.error)
+      setSuccess('')
     } finally {
       setLoading(false)
     }
@@ -87,9 +108,21 @@ const SignupModalv2: React.FC = () => {
             </select>
             <input
               type="text"
+              placeholder="Nome"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <input
+              type="text"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="Telefone"
+              value={cellphone}
+              onChange={(e) => setCellphone(e.target.value)}
             />
             <input
               type="password"
@@ -104,9 +137,10 @@ const SignupModalv2: React.FC = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
       {error && <p className="signup-error-message">{error}</p>}
+      {success && <p className="signup-success-message">{success}</p>}
       </Modal>
     </>
-  );
-};
+  )
+}
 
-export default SignupModalv2;
+export default SignupModalv2

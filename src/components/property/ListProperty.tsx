@@ -3,6 +3,10 @@ import errorHandler from '../../functions/errorHandler'
 import { fetchPropertyes } from '../../api/property'
 import './ListProperty.css'
 import { Button } from 'antd'
+import { useSelector } from 'react-redux'
+import { translateUserLevel } from '../../functions/translate'
+import { SelectorState } from '../../redux/reducers/authReducer'
+import { IUser, UserLevels } from '../../interfaces/user'
 
 function ListProperty() {
   console.log('ListProperty')
@@ -26,12 +30,17 @@ function ListProperty() {
     fetchImoveis()
   }, [page])
 
+  const isAuthenticated: boolean = useSelector((state: SelectorState) => Boolean(state?.auth?.token))
+  const userLevel: IUser['level'] | string = useSelector((state: SelectorState) => 
+  state?.auth?.user?.level)
+
+  const canCreate = isAuthenticated && userLevel === UserLevels.proprietario
   return (
     <div>
       <div className='mob-header'>
         <h1>Imóveis</h1>
         <div className='div-right'>
-          <Button className='boris' shape='round' type='primary'>Cadastrar Imóvel</Button>
+          {canCreate && <Button className='boris' shape='round' type='primary'>Cadastrar Imóvel</Button>}
         </div>
       </div>
       <ul>

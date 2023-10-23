@@ -4,6 +4,8 @@ import locatarioItems from './locatarioItems'
 import {
   HomeOutlined
 } from '@ant-design/icons';
+import { UserLevels } from '../../../../interfaces/user';
+import proprietarioItems from './proprietarioItems';
 
 export type MenuItem = Required<MenuProps>['items'][number]
 
@@ -26,8 +28,12 @@ export const unauthItems: MenuItem[] = [
   getItem('Teste Dois', '/adubo', <HomeOutlined />)
 ]
 
-export function getUserPaths (userLevel?: any) {
+export function getUserPaths (userLevel?: UserLevels) {
   console.log({ userLevel })
-  if (!userLevel) return unauthItems
-  return locatarioItems
+  switch (userLevel) {
+    case UserLevels.locatario: return locatarioItems
+    case UserLevels.proprietario: return proprietarioItems
+  }
+
+  return unauthItems
 }

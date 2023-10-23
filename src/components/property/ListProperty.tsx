@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import errorHandler from '../../functions/errorHandler'
 import { fetchPropertyes } from '../../api/property'
+import './ListProperty.css'
+import { Button } from 'antd'
 
 function ListProperty() {
   console.log('ListProperty')
@@ -12,8 +14,9 @@ function ListProperty() {
     async function fetchImoveis() {
       try {
         const data = await fetchPropertyes(page)
+        console.log(data.paginate)
         // const data = { results: [{ id: '1', nome: 'ImovelUm' }, { id: '2', nome: 'ImovelUm' }, { id: '3', nome: 'ImovelUm' }] }
-        setImoveis(data.results)
+        setImoveis(data.paginate?.docs)
       } catch (error) {
         setError(errorHandler(error))
         // Trate os erros de forma adequada
@@ -25,7 +28,12 @@ function ListProperty() {
 
   return (
     <div>
-      <h2>Lista de Imóveis</h2>
+      <div className='mob-header'>
+        <h1>Imóveis</h1>
+        <div className='div-right'>
+          <Button className='boris' shape='round' type='primary'>Cadastrar Imóvel</Button>
+        </div>
+      </div>
       <ul>
         {imoveis.map((imovel: any) => (
           <li key={imovel.id}>{imovel.nome}</li>

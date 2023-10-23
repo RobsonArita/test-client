@@ -4,10 +4,15 @@ import React from 'react';
 
 function ApplicationRoutes({ selectedPath }: { selectedPath: string }) {
   console.log({ selectedPath })
+  const selectedRoute = (selectedPath: string) => {
+    switch (selectedPath) {
+      case '/': return <ListProperty />
+    }
+  }
   return (
     <Router>
       <Routes>
-        <Route path={selectedPath} element={<ListProperty />} /> {/* Use <Route> para ListProperty */}
+        <Route path={selectedPath} element={selectedRoute(selectedPath)} /> {/* Use <Route> para ListProperty */}
       </Routes>
     </Router>
   )

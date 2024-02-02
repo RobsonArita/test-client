@@ -37,6 +37,7 @@ export class DefaultApi {
   }
 
   private async post () {
+    console.log({ post: `${this.url}${this.urlPath}` })
     return await axios.post(`${this.url}${this.urlPath}`, this.body)
   }
 

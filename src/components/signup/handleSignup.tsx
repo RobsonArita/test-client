@@ -11,6 +11,6 @@ export const handleSignup = async (
   } catch (error: any) {
     console.error('Erro ao fazer login:', error)
     if (error?.response?.data?.error) return error?.response?.data?.error
-    return 'Erro ao fazer login. Verifique suas credenciais.'
+    return 'Erro ao fazer signup.'
   }
 }

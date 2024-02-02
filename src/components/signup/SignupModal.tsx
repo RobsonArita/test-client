@@ -27,8 +27,8 @@ function SignupModal({ onClose, onSignupSuccess }: { onClose: any, onSignupSucce
       onSignupSuccess()
       setShowLoginModal(false) // Feche o modal após o login com sucesso
     } catch (error: any) {
-      console.error('Erro ao fazer login:', error)
-      setError('Erro ao fazer login. Verifique suas credenciais.')
+      console.error('Erro ao fazer signup:', error)
+      setError('Erro ao fazer signup.')
       if (error?.response?.data?.error) setError(error?.response?.data?.error)
     }
   }

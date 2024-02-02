@@ -62,8 +62,8 @@ const SignupModalv2: React.FC = () => {
       setError('')
       clearFields()
     } catch (error: any) {
-      console.error('Erro ao fazer login:', error)
-      setError('Erro ao fazer login. Verifique suas credenciais.')
+      console.error('Erro ao realizar signup:', error)
+      setError('Erro ao realizar signup.')
       if (error?.response?.data?.error) setError(error?.response?.data?.error)
       setSuccess('')
     } finally {

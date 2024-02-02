@@ -1,18 +1,26 @@
+// No arquivo onde você configura o seu Redux Store (por exemplo, store.ts)
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 import authReducer from '../reducers/authReducer'
 
+const persistConfig = {
+  key: 'root',
+  storage,
+}
+
 const rootReducer = combineReducers({
-  auth: authReducer
+  auth: authReducer,
 })
 
-export type RootState = ReturnType<typeof rootReducer>
+const persistedReducer = persistReducer(persistConfig, rootReducer)
 
 const store = configureStore({
-  reducer: {
-    auth: authReducer
-  }
+  reducer: persistedReducer,
 })
 
-export default store
+const persistor = persistStore(store)
+
+export { store, persistor }

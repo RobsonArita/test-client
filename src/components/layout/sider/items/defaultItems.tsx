@@ -24,7 +24,8 @@ export function getItem(
 }
 
 export const unauthItems: MenuItem[] = [
-  getItem('Imóveis Disponíveis', '/', <HomeOutlined />)
+  getItem('Imóveis Disponíveis', '/', <HomeOutlined />),
+  getItem('Teste Dois', '/adubo', <HomeOutlined />)
 ]
 
 export function getUserPaths (userLevel?: UserLevels | undefined) {

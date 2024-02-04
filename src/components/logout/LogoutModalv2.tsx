@@ -5,7 +5,6 @@ import { loginApi } from '../../api/signin'
 import { useDispatch } from 'react-redux'
 import { login } from '../../redux/actions/authActions'
 import errorHandler from '../../functions/errorHandler'
-
 const LogoutModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
   const dispatch = useDispatch()
   const [error, setError] = useState('')
@@ -36,6 +35,7 @@ const LogoutModalv2 = ({ onLoginSuccess }: { onLoginSuccess: () => void }) => {
     try {
       dispatch(login('', ''))
       onLoginSuccess()
+      window.location.reload()
     } catch (error: any) {
       console.error('Erro ao realizar logout:', error)
       setError(errorHandler(error))

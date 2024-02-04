@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
+import { useSelector } from 'react-redux';
+import { SelectorState } from '../../redux/reducers/authReducer';
 
 interface File {
   uid: string
-  url: string
+  _id: string
 }
 
 function removerPalavraEFormatar(stringOriginal: string, palavraARemover: string) {
@@ -38,21 +40,20 @@ const PropertyForm = () => {
     }));
   };
 
-  const handleImageChange = (info: { file: { status: string, uid: string, response: { url: any; }; }; }) => {
+  const handleImageChange = (info: { file: { status: string, uid: string, response: { _id: string; }; }; }) => {
     console.log({ info })
     if (info.file.status === 'done') {
-      if (!info.file.response.url) info.file.response.url = 'mockedUrl'
-      console.log({ a: info.file.response.url })
+      console.log({ response: info.file.response })
 
       const sentFiles = files
-      sentFiles.push({ uid: info.file.uid, url: info.file.response.url })
+      sentFiles.push({ uid: info.file.uid, _id: info.file.response._id })
       setFiles(sentFiles)
       console.log({ files })
 
       // Atualiza o estado com a URL da imagem após o upload
       setPropertyInfo({
         ...propertyInfo,
-        image: propertyInfo.image?.length ? propertyInfo.image + ',' + info.file.response.url : info.file.response.url,
+        image: propertyInfo.image?.length ? propertyInfo.image + ',' + info.file.response._id : info.file.response._id,
       })
     }
 
@@ -61,7 +62,7 @@ const PropertyForm = () => {
       console.log({ removedFile })
       if (removedFile) {
         const filesFromPropertyInfo = propertyInfo.image
-        const updated = removerPalavraEFormatar(filesFromPropertyInfo, removedFile.url)
+        const updated = removerPalavraEFormatar(filesFromPropertyInfo, removedFile._id)
         setPropertyInfo({
           ...propertyInfo,
           image: updated
@@ -87,6 +88,10 @@ const PropertyForm = () => {
     }
   };
 
+  const token: string | null = useSelector((state: SelectorState) => state.auth?.token)
+  const getToken = () => token ?? ''
+
+
   return (
     <form onSubmit={handleSubmit}>
       <label>
@@ -102,7 +107,11 @@ const PropertyForm = () => {
       <label>
         Imagem:
         <Upload
-          action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188" // rota back para upload
+          action={process.env.REACT_APP_BASE_URL + '/auth/file/upload'} // rota back para upload
+          method="post"
+          headers={{
+            Authorization: getToken(),
+          }}
           listType="picture"
           // @ts-ignore
           onChange={handleImageChange} // Adiciona a função para lidar com as mudanças de upload

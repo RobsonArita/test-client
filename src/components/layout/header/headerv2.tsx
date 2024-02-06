@@ -15,6 +15,7 @@ function Headerv2 ({ reloadHeader }: {
 }) {
   const onLoginSuccess = () => {
     reloadHeader()
+    window.location.reload()
   }
 
   const isAuthenticated: boolean = useSelector((state: SelectorState) => Boolean(state?.auth?.token))

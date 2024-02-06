@@ -1,4 +1,4 @@
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 
 export enum ReqType {
   post = 'post',
@@ -13,18 +13,21 @@ export class DefaultApi {
   private readonly reqType: ReqType
   private readonly body?: { [key: string]: any }
   private readonly query?: any
+  private readonly token?: string
 
   constructor (
     urlPath: string,
     reqType: ReqType,
     body?: { [key: string]: any },
-    query?: any
+    query?: any,
+    token?: string
   ) {
     this.url = process.env.REACT_APP_BASE_URL
     this.urlPath = urlPath
     this.reqType = reqType
     this.body = body
     this.query = query
+    this.token = token
   }
 
   async useAxios () {
@@ -39,13 +42,21 @@ export class DefaultApi {
     }
   }
 
+   setConfig () {
+    const config: AxiosRequestConfig = {}
+    if (this.token) config.headers = { Authorization: this.token }
+    console.log({ config })
+    return config
+  }
+
   private async post () {
-    console.log({ post: `${this.url}${this.urlPath}` })
-    return await axios.post(`${this.url}${this.urlPath}`, this.body)
+    console.log({ post: `${this.url}${this.urlPath}`, postBody: this.body })
+    return await axios.post(`${this.url}${this.urlPath}`, this.body, this.setConfig())
   }
 
   private async get () {
     const response = await axios.get(`${this.url}${this.urlPath}`, {
+      ...this.setConfig(),
       params: { ...this.query },
     })
 

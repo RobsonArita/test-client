@@ -37,3 +37,13 @@ button {
 button:hover {
   background-color: #45a049;
 }
+
+.success-message {
+  color: #14921a;
+  font-size: 16px;
+}
+
+.error-message {
+  color: #ff0000;
+  font-size: 16px;
+}

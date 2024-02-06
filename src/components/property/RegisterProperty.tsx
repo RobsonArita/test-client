@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import Modal, { Styles } from 'react-modal'
 import { Button, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { SelectorState } from '../../redux/reducers/authReducer';
 import './RegisterProperty.css'
+import { propertyAPI } from '../../api/property';
+import errorHandler from '../../functions/errorHandler';
 
 interface File {
   uid: string
@@ -52,7 +54,6 @@ const PropertyForm = () => {
       setFiles(sentFiles)
       console.log({ files })
 
-      // Atualiza o estado com a URL da imagem após o upload
       setPropertyInfo({
         ...propertyInfo,
         image: propertyInfo.image?.length ? propertyInfo.image + ',' + info.file.response?._id : info.file.response?._id ?? '',
@@ -76,23 +77,22 @@ const PropertyForm = () => {
   const handleSubmit = async (e: { preventDefault: () => void; }) => {
     e.preventDefault(); 
 
-    const formData = new FormData()
-    formData.append('title', propertyInfo.title)
-    formData.append('description', propertyInfo.description)
-    formData.append('address', propertyInfo.address)
-    formData.append('image', propertyInfo.image)
+    const reqBody = {...propertyInfo }
 
     try {
-      const response = await axios.post('http://localhost:3000/properties', formData);
-      // Lidar com a resposta do servidor, se necessário
-      console.log('Resposta do servidor:', response.data);
+      // await axios.post('http://localhost:3000/properties', formData);
+      const response = await new propertyAPI(getToken()).registerProperty(reqBody)
+      setSuccess(response?.message ?? 'Successo!')
     } catch (error) {
-      console.error('Erro ao cadastrar imóvel', error);
+      console.error('Erro ao cadastrar imóvel', error)
+      setError(errorHandler(error))
     }
   };
 
   const token: string | null = useSelector((state: SelectorState) => state.auth?.token)
   const getToken = () => token ?? ''
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
 
   return (
@@ -129,6 +129,26 @@ const PropertyForm = () => {
       </div>
 
       <button type="submit">Cadastrar Imóvel</button>
+      <Modal
+        isOpen={success !== ''}
+        onRequestClose={() => setSuccess('')}
+        contentLabel="Mensagem de Sucesso"
+        style={customStyles}
+      >
+        <h2>Mensagem de Sucesso</h2>
+        <p>{success}</p>
+        <button onClick={() => setSuccess('')}>Fechar</button>
+      </Modal>
+      <Modal
+        isOpen={error !== ''}
+        onRequestClose={() => setError('')}
+        contentLabel="Erro"
+        style={customStyles}
+      >
+        <h2>Ocorreu um Erro</h2>
+        <p>{error}</p>
+        <button onClick={() => setError('')}>Fechar</button>
+      </Modal>
     </form>
     </div>
   )
@@ -141,3 +161,19 @@ export default PropertyForm;
  * após envio, o image será uma string separada por virgulas com as urls
  * back precisa salvar isso TODODODO
  */
+
+const customStyles: Styles = {
+  content: {
+    width: '300px', // ajuste conforme necessário
+    height: '200px', // ajuste conforme necessário
+    margin: 'auto',
+    borderRadius: '10px',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
+    backgroundColor: 'white',
+    textAlign: 'center',
+    padding: '20px',
+  },
+  overlay: {
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+};

@@ -1,18 +1,10 @@
-import axios from 'axios'
 import { DefaultApi, ReqType } from './defaultAPI'
 
-const API_URL = 'https://sua-api.com/imoveis'
-
-export async function getImoveis(page: any) {
-  try {
-    const response = await axios.get(API_URL, {
-      params: { page },
-    })
-    return response.data
-  } catch (error) {
-    console.error('Erro ao buscar a lista de imóveis:', error)
-    throw error
-  }
+export interface IProperty {
+  title?: string
+  description?: string
+  image?: string
+  address?: string
 }
 
 export const fetchPropertyes = async (page: number) => {
@@ -26,5 +18,30 @@ export const fetchPropertyes = async (page: number) => {
     return response?.data
   } catch (err) {
     throw err
+  }
+}
+
+export class propertyAPI {
+  private readonly token?: string
+  constructor (token?: string) {
+    this.token = token
+  }
+
+  async registerProperty (data: IProperty) {
+    try {
+      const response = await new DefaultApi(
+        '/auth/property/solicitate',
+        ReqType.post,
+        data,
+        {},
+        this.token
+      ).useAxios()
+  
+      console.log({ response: response?.data })
+      return response?.data
+    } catch (error) {
+      console.log({ apiError: error })
+      throw error
+    }
   }
 }

@@ -55,6 +55,11 @@ export class DefaultApi {
   }
 
   private async get () {
+    const getConfig = {
+      ...this.setConfig(),
+      params: { ...this.query },
+    }
+    console.log({ getConfig })
     const response = await axios.get(`${this.url}${this.urlPath}`, {
       ...this.setConfig(),
       params: { ...this.query },

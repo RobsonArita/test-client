@@ -44,4 +44,22 @@ export class propertyAPI {
       throw error
     }
   }
+
+  async authProperties (page: number) {
+    try {
+      const response = await new DefaultApi(
+        '/auth/property/',
+        ReqType.get,
+        {},
+        { page },
+        this.token
+      ).useAxios()
+  
+      console.log({ response: response?.data })
+      return response?.data
+    } catch (error) {
+      console.log({ apiError: error })
+      throw error
+    }
+  }
 }

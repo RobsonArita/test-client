@@ -3,8 +3,9 @@ import { DefaultApi, ReqType } from './defaultAPI'
 export interface IProperty {
   title?: string
   description?: string
-  image?: string
+  image: string
   address?: string
+  value?: number
 }
 
 export const fetchPropertyes = async (page: number) => {
@@ -45,13 +46,31 @@ export class propertyAPI {
     }
   }
 
-  async authProperties (page: number) {
+  async properties (page: number) {
     try {
       const response = await new DefaultApi(
-        '/auth/property/',
+        this.token ? '/auth/property/' : '/unauth/property/',
         ReqType.get,
         {},
         { page },
+        this.token
+      ).useAxios()
+  
+      console.log({ response: response?.data })
+      return response?.data
+    } catch (error) {
+      console.log({ apiError: error })
+      throw error
+    }
+  }
+
+  async show (id?: string) {
+    try {
+      const response = await new DefaultApi(
+        this.token ? `/auth/property/${id}` : `/unauth/property/${id}`,
+        ReqType.get,
+        {},
+        {},
         this.token
       ).useAxios()
   

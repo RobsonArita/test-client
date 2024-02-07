@@ -8,6 +8,7 @@ import { translateUserLevel } from '../../functions/translate';
 import { SelectorState } from '../../redux/reducers/authReducer';
 import { IUser, UserLevels } from '../../interfaces/user';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom';
 
 const { Meta } = Card;
 
@@ -49,7 +50,9 @@ function PropertyCard({ property }: { property: any }) {
               onClick={handleNextImage}
             />
           )}
-          <img alt={property.address} src={property.image[currentImageIndex]} style={{ maxWidth: '100%', maxHeight: '100%', display: 'block', margin: 'auto' }} />
+        <Link key={property._id} to={`/property/${property._id}`}>
+        <img alt={property.address} src={property.image[currentImageIndex]} style={{ maxWidth: '100%', maxHeight: '100%', display: 'block', margin: 'auto' }} />
+        </Link>
         </div>
       }
     >
@@ -59,20 +62,17 @@ function PropertyCard({ property }: { property: any }) {
 }
 
 function ListProperty() {
-  console.log('ListProperty');
   const [page, setPage] = useState(1);
   const [imoveis, setImoveis] = useState([]);
   const [error, setError] = useState('');
 
-  const token: string | null = useSelector((state: SelectorState) => state.auth?.token);
+  const token: string | undefined = useSelector((state: SelectorState) => state.auth?.token) ?? undefined
 
   useEffect(() => {
     async function fetchImoveis() {
       try {
         console.log({ token });
-        const data = token
-          ? await new propertyAPI(token).authProperties(page)
-          : await fetchPropertyes(page);
+        const data = await new propertyAPI(token).properties(page)
         console.log(data.paginate);
         setImoveis(data.paginate?.docs);
       } catch (error) {
@@ -92,16 +92,13 @@ function ListProperty() {
     <div>
       <div className='mob-header'>
         <h1>Imóveis</h1>
-        <div className='div-right'>
-          {canCreate && <Button shape='round' type='primary'>Cadastrar Imóvel</Button>}
-        </div>
       </div>
       <div className="property-grid">
-        {imoveis.map((imovel: any) => (
-          <PropertyCard key={imovel._id} property={imovel} />
+      {imoveis.map((imovel: any) => (
+        <PropertyCard key={imovel._id} property={imovel} />
         ))}
       </div>
-      <div>
+      <div className='pageButtons'>
         <Button type='primary' onClick={() => setPage(page - 1)} disabled={page === 1}>
           Anterior
         </Button>

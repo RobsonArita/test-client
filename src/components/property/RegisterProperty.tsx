@@ -32,6 +32,7 @@ const PropertyForm = () => {
     description: '',
     address: '',
     image: '',
+    value: 0
   });
 
   const [files , setFiles]: [Array<File>, any] = useState([])
@@ -111,6 +112,11 @@ const PropertyForm = () => {
       <div className="form-group">
         <label htmlFor="description">Descrição:</label>
         <textarea id="description" name="description" value={propertyInfo.description} onChange={handleInputChange} />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="description">Valor mensal:</label>
+        <input type="number" id="value" name="value" value={propertyInfo.value} onChange={handleInputChange} />
       </div>
 
       <div className="form-group">

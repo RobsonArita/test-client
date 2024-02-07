@@ -1,27 +1,26 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'
-import App from './App'
-import reportWebVitals from './reportWebVitals'
-import { Provider } from 'react-redux'
-import { ConfigProvider } from 'antd'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import { ConfigProvider } from 'antd';
 import { PersistGate } from 'redux-persist/integration/react';
-import customTheme from './theme'
-import { persistor, store } from './redux/store/store'
+import customTheme from './theme';
+import { persistor, store } from './redux/store/store';
+import { BrowserRouter as Router } from 'react-router-dom';
 
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-)
-
-root.render(
+ReactDOM.render(
   <ConfigProvider theme={customTheme}>
     <PersistGate loading={null} persistor={persistor}>
-    <Provider store={store}>
-      <App />
-    </Provider>
+      <Provider store={store}>
+        <Router>
+          <App />
+        </Router>
+      </Provider>
     </PersistGate>
-  </ConfigProvider>
-)
+  </ConfigProvider>,
+  document.getElementById('root')
+);
 
-reportWebVitals()
+reportWebVitals();

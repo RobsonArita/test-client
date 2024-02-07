@@ -1,29 +1,18 @@
-import { BrowserRouter as Router, Route, Routes, Navigate, useNavigate } from 'react-router-dom'
-import ListProperty from '../components/property/ListProperty'
 import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Importe BrowserRouter, Route e Routes
+import ListProperty from '../components/property/ListProperty';
 import RegisterProperty from '../components/property/RegisterProperty';
+import PropertyDetails from '../components/property/ShowProperty';
 
-function ApplicationRoutes({ selectedPath }: { selectedPath: string }) {
-  console.log({ selectedPath })
+function ApplicationRoutes() {
   return (
-    <Router>
       <Routes>
-        <Route path={'/'} element={getComponent(selectedPath)} />
+        <Route path="/property/list" element={<ListProperty />} />
+        <Route path="/property/register" element={<RegisterProperty />} />
+        <Route path="/property/:id" element={<PropertyDetails />} />
+        <Route path="*" element={<ListProperty />} />
       </Routes>
-    </Router>
-  )
+  );
 }
 
-function getComponent(selectedPath: string) {
-  switch (selectedPath) {
-    case '/property/list':
-      return <ListProperty />;
-    case '/property/register':
-      return <RegisterProperty />;
-    default:
-      return <ListProperty />;
-  }
-}
-
-
-export default ApplicationRoutes
+export default ApplicationRoutes;

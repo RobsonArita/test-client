@@ -28,7 +28,7 @@ export const unauthItems: MenuItem[] = [
   getItem('Teste Dois', '/adubo', <HomeOutlined />)
 ]
 
-export function getUserPaths (userLevel?: UserLevels | undefined) {
+export function getUserPaths (userLevel?: UserLevels | undefined): any {
   console.log({ userLevel })
   switch (userLevel) {
     case UserLevels.locatario: return locatarioItems
